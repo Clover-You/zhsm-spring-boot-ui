@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client'
 import 'nprogress/nprogress.css'
 import { createTheme, ThemeProvider } from '@material-ui/core'
 
-import App from './App'
-import './index.css'
+import './index.less'
+import {BaseLayout} from '@/layouts/BaseLayout'
 const theme = createTheme({
   palette: {
     type: 'dark',
@@ -19,7 +19,7 @@ const theme = createTheme({
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <BaseLayout />
     </ThemeProvider>
   </React.StrictMode>
 )
