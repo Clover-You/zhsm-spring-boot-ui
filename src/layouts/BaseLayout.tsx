@@ -16,18 +16,18 @@
  * @email cloveryou02@163.com
  * @create 2022-08-30 9:45
  */
-import {memo} from 'react'
+import { memo } from 'react'
 
-import {BlockHeader} from "@/layouts/components/BlockHeader";
-import {Sider} from "@/layouts/components/Sider";
-import {View} from "@/layouts/components/View";
-import {Box, Grid} from '@mui/material';
+import { BlockHeader } from "@/layouts/components/BlockHeader";
+import { Sider } from "@/layouts/components/Sider";
+import { View } from "@/layouts/components/View";
+import { Box, Grid } from '@mui/material';
 
 export interface BaseLayoutProps {
 }
 
 export const BaseLayout = memo<BaseLayoutProps>(() => {
-  return <div>
+  return <>
     <Grid container>
       <Grid item xs>
         <BlockHeader />
@@ -46,5 +46,5 @@ export const BaseLayout = memo<BaseLayoutProps>(() => {
         <View />
       </Grid>
     </Grid>
-  </div>
+  </>
 })
