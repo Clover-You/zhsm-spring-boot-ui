@@ -17,10 +17,19 @@
  * @create 2022-08-30 10:38
  */
 import {memo} from "react";
+import {Button} from "@mui/material";
+import Style from './View.module.less'
+import less from 'less'
 
 export interface ViewProps {
 }
 
 export const View = memo<ViewProps>(() => {
-  return <>Hello world</>
+  return <div className={Style.Box}>
+    <Button onClick={() => {
+      less.modifyVars({
+        '@base-color': '#fff'
+      })
+    }}>切换颜色</Button>
+  </div>
 })
