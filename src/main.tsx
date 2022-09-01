@@ -4,9 +4,11 @@ import 'nprogress/nprogress.css'
 
 import './index.less'
 import { BaseLayout } from '@/layouts/BaseLayout'
+import { UserAccountPage } from './pages/User/Account'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <BaseLayout />
+    {/* <BaseLayout /> */}
+    <UserAccountPage/>
   </React.StrictMode>
 )
