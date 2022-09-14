@@ -61,7 +61,7 @@ export const UserAccountPage = React.memo(() => {
   }
 
   return (
-    <Card sx={{ width: 525, height: 502 }}>
+    <Card sx={{ width: 525,  }}>
       <TabRender/>
       <CardContent>
         <TabPanel value={value} index={0}>
