@@ -60,6 +60,7 @@ export const Input = forwardRef<any, InputProps>((props, ref) => {
     onBlur: props.onBlur,
     name: props.name,
     onFocus: props.onFocus,
+    autoComplete: props.autoComplete
   }
 
   /**

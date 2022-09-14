@@ -52,6 +52,7 @@ export const LoginPage = memo(() => {
           <PasswordInput
             label="密码"
             placeholder={'请输入密码'}
+            autoComplete={'off'}
             fullWidth
             error={formState.errors?.password != void 0}
             helperText={formState.errors.password?.message?.toString()}
