@@ -17,8 +17,7 @@
  * @create 2022-09-14 9:27
  */
 import {forwardRef, useState} from "react";
-import {FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {FormControl, FormHelperText, InputLabel, OutlinedInput} from "@mui/material";
 import {FormControlTypeMap} from "@mui/material/FormControl/FormControl";
 import {OutlinedInputProps} from "@mui/material/OutlinedInput/OutlinedInput";
 
@@ -29,31 +28,22 @@ interface PasswordInputBaseProps {
   label?: string
   fullWidth?: boolean
   helperText?: string
-  styleType?: InputType
+  styleType?: InputStyleType
 }
 
+/**
+ * 输入框Props
+ */
 export type InputProps = Omit<BaseProps, keyof PasswordInputBaseProps> & PasswordInputBaseProps
 
-export interface InputEndAdornmentProps {
-  onClick?: () => void
-  show?: boolean
-}
-const InputEndAdornment = (props: InputEndAdornmentProps) => {
-  return <>
-    <InputAdornment position="end">
-      <IconButton
-        aria-label="toggle password visibility"
-        onClick={props.onClick}
-      >
-        {props.show ? <Visibility /> : <VisibilityOff />}
-      </IconButton>
-    </InputAdornment>
-  </>
-}
 /**
  * 密码输入框
  */
 export const Input = forwardRef<any, InputProps>((props, ref) => {
+  /**
+   * 组件随机id
+   */
+  const [id] = useState(new Date().getTime().toString())
   const formControlProps: FormControlProps = {
     fullWidth: props.fullWidth,
     error: props.error
@@ -72,20 +62,34 @@ export const Input = forwardRef<any, InputProps>((props, ref) => {
     onFocus: props.onFocus,
   }
 
-  const [id] = useState(new Date().getTime().toString())
+  /**
+   * 在props中匹配文本框风格
+   */
+  const getVariantInProps = () => {
+    if (props.styleType == InputStyleType.MATERIAL_DEFAULT) return 'outlined'
+    if (props.styleType == InputStyleType.FILLED) return 'filled'
+    return 'outlined'
+  }
+  /**
+   * 标签组件
+   */
+  const MyInputLabel = () => {
+    if (props.styleType === InputStyleType.NORMAL) return null
+    return <InputLabel htmlFor={inputProps.id ?? id}>{props.label}</InputLabel>
+  }
 
   return <>
     <FormControl
       {...formControlProps}
       className={props.className}
-      variant={props.styleType == InputType.MATERIAL_DEFAULT ? 'outlined' : props.styleType == InputType.FILLED ? 'filled' : 'outlined'}
+      variant={getVariantInProps()}
     >
-      {props.styleType === InputType.NORMAL ? null : <InputLabel htmlFor={inputProps.id ?? id}>{props.label}</InputLabel>}
+      <MyInputLabel/>
       <OutlinedInput
         {...inputProps}
         ref={ref}
         id={inputProps.id ?? id}
-        label={props.styleType === InputType.NORMAL ? null : props.label}
+        label={props.styleType === InputStyleType.NORMAL ? null : props.label}
         value={props.value}
       />
       <FormHelperText>{props.helperText}</FormHelperText>
@@ -93,12 +97,18 @@ export const Input = forwardRef<any, InputProps>((props, ref) => {
   </>
 })
 
-export enum InputType {
+/**
+ * 文本框风格类型
+ */
+export enum InputStyleType {
   NORMAL,
   MATERIAL_DEFAULT,
   FILLED
 }
 
+/**
+ * 文本框默认props
+ */
 Input.defaultProps = {
-  styleType: InputType.NORMAL
+  styleType: InputStyleType.NORMAL
 }
