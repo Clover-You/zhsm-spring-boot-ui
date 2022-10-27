@@ -85,4 +85,5 @@ req.interceptors.response.use<AxiosResponse<RespType>>((resp) => {
 })
 
 export default req
+
 export {  req }

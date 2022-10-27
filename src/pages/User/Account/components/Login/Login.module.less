@@ -1,0 +1,25 @@
+@import '@/themes/default.less';
+
+@ImagePackage: '@/assets/bg.svg';
+
+.loginBox {
+  background: url(@ImagePackage);
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+
+  .card {
+    box-shadow: 0 0 10px @box-shadow-base;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
+    width: 500px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .loginBox .card {
+    margin: 8px !important;
+    width: 100% !important;
+  }
+}

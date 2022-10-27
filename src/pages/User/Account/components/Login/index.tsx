@@ -1,86 +1,113 @@
-import {Button, Checkbox, Divider, FormControlLabel, FormGroup, Grid, Link, Snackbar, Typography} from "@mui/material";
-import {Box} from "@mui/system";
-import {memo, useState} from "react";
-import {useForm} from "react-hook-form";
-import {PasswordInput} from "@/components/input/PasswordInput";
-import {Input} from "@/components/input/Input";
+/**
+ * █████▒█      ██  ▄████▄   ██ ▄█▀     ██████╗ ██╗   ██╗ ██████╗
+ * ▓██   ▒ ██  ▓██▒▒██▀ ▀█   ██▄█▒      ██╔══██╗██║   ██║██╔════╝
+ * ▒████ ░▓██  ▒██░▒▓█    ▄ ▓███▄░      ██████╔╝██║   ██║██║  ███╗
+ * ░▓█▒  ░▓▓█  ░██░▒▓▓▄ ▄██▒▓██ █▄      ██╔══██╗██║   ██║██║   ██║
+ * ░▒█░   ▒▒█████▓ ▒ ▓███▀ ░▒██▒ █▄     ██████╔╝╚██████╔╝╚██████╔╝
+ * ▒ ░   ░▒▓▒ ▒ ▒ ░ ░▒ ▒  ░▒ ▒▒ ▓▒     ╚═════╝  ╚═════╝  ╚═════╝
+ * ░     ░░▒░ ░ ░   ░  ▒   ░ ░▒ ▒░
+ * ░ ░    ░░░ ░ ░ ░        ░ ░░ ░
+ * ░     ░ ░      ░  ░
+ * Copyright 2022 Clover You.
+ * <p>
+ * 登录页
+ * </p>
+ * @author Clover
+ * @email cloveryou02@163.com
+ * @create 2022-10-24 23:01
+ */
+import {memo, useState} from 'react'
+import styles from './Login.module.less'
+import {Button, Card, Checkbox, Col, Divider, Form, Input, message, Row} from 'antd'
+import {LockOutlined, UserOutlined} from '@ant-design/icons'
+import {ValidateStatus} from 'antd/lib/form/FormItem'
+import {ValidateErrorEntity} from 'rc-field-form/lib/interface'
+import * as StringUtils from '@/utils/StringUtils'
+import {Link} from 'react-router-dom'
 
 export const LoginPage = memo(() => {
-  const {register, handleSubmit, formState} = useForm()
-  const [alertState, setAlertState] = useState(false)
 
-  /**
-   * 表单提交
-   * @param formData 表单数据
-   */
-  const onSubmit = (formData: any) => {
-    console.log(formData);
+  const [form] = Form.useForm<Account.LoginTo>()
+  const [validateStatus, setValidateStatus] = useState<{ [key in Account.LoginToKeys]: ValidateStatus }>({
+    password: '',
+    username: ''
+  })
+
+  const onFormFinishFailed = async (errorInfo: ValidateErrorEntity<Account.LoginTo>) => {
+    let firstField
+    if ((firstField = errorInfo.errorFields[0])) {
+      if (firstField.errors[0]) {
+        message.error(firstField.errors[0])
+        setValidateStatus({
+          ...validateStatus,
+          [firstField.name[0]]: 'error'
+        })
+      }
+    }
   }
-  /**
-   * 监听忘记密码点击事件
-   */
-  const onForgetPasswordClick = () => {
-    setAlertState(true)
+
+  const clearValidateStatus = (field: Account.LoginToKeys) => {
+    if (StringUtils.hasText(validateStatus[field])) {
+      setValidateStatus({ ...validateStatus, [field]: '' })
+    }
   }
 
   return <>
-    <Snackbar
-      open={alertState}
-      autoHideDuration={4000}
-      onClose={(_, reason) => (reason === 'timeout' && setAlertState(false))}
-      anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-      message={'HELLO WORLD!'}
-    />
-    <Box
-      component="form"
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Input
-            error={formState.errors?.userName != void 0}
-            label="用户名"
-            placeholder="请输入用户名"
-            fullWidth
-            helperText={formState.errors.userName?.message?.toString()}
-            {...register('userName', {required: 'user name is required'})}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <PasswordInput
-            label="密码"
-            placeholder={'请输入密码'}
-            autoComplete={'off'}
-            fullWidth
-            error={formState.errors?.password != void 0}
-            helperText={formState.errors.password?.message?.toString()}
-            {...register('password', {required: 'password is required'})}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Grid
-            justifyContent={'space-between'}
-            container
-            direction={'row'}
-            alignItems={'center'}
+    <div className={styles.loginBox}>
+      <Card
+        className={styles.card}
+        title={'登录'}
+      >
+        <Form
+          form={form}
+          scrollToFirstError={true}
+          labelCol={{span: 2}}
+          onFinishFailed={onFormFinishFailed}
+          autoComplete='off'
+        >
+          <Form.Item
+            name={'username'}
+            validateStatus={validateStatus.username}
+            help={''}
+            rules={[{required: true, message: '用户名/邮箱不能为空!'}]}
           >
-            <FormGroup row>
-              <FormControlLabel control={<Checkbox />} label={'记住密码'}/>
-            </FormGroup>
-            <Link href={'#'} underline={'none'} onClick={onForgetPasswordClick}>忘记密码？</Link>
-          </Grid>
-        </Grid>
-        <Grid xs={12} item>
-          <Button fullWidth type="submit" size="large" variant="contained">登录</Button>
-        </Grid>
-        <Grid xs={12} item>
-          <Divider style={{margin: 0}} variant="middle" >
-            <Typography>社交登录</Typography>
-          </Divider>
-        </Grid>
-      </Grid>
-    </Box>
+            <Input
+              prefix={<UserOutlined className='site-form-item-icon'/>}
+              placeholder='用户名/邮箱'
+              onChange={() => clearValidateStatus('username')}
+            />
+          </Form.Item>
+          <Form.Item
+            name={'password'}
+            help={''}
+            validateStatus={validateStatus.password}
+            rules={[{required: true, message: '密码不能为空!'}]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className='site-form-item-icon'/>}
+              onChange={() => clearValidateStatus('password')}
+              autoComplete={'none'}
+              placeholder={'密码'}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Row>
+              <Col flex={1}>
+                <Checkbox>记住我</Checkbox>
+              </Col>
+              <Col>
+                <Link to={'/forget'}>忘记密码?</Link>
+              </Col>
+            </Row>
+          </Form.Item>
+          <Button
+            block
+            htmlType={'submit'}
+            type={'primary'}
+          >登录</Button>
+        </Form>
+        <Divider plain>其它登录方式</Divider>
+      </Card>
+    </div>
   </>
 })

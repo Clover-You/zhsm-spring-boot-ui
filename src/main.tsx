@@ -3,12 +3,16 @@ import ReactDOM from 'react-dom/client'
 import 'nprogress/nprogress.css'
 
 import './index.less'
-import { BaseLayout } from '@/layouts/BaseLayout'
-import { UserAccountPage } from './pages/User/Account'
+import {LoginPage} from '@/pages/User/Account/components/Login'
+import {ConfigProvider} from 'antd'
+import {HashRouter} from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    {/* <BaseLayout /> */}
-    <UserAccountPage/>
+    <ConfigProvider componentSize={'large'}>
+      <HashRouter>
+        <LoginPage/>
+      </HashRouter>
+    </ConfigProvider>
   </React.StrictMode>
 )
