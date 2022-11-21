@@ -33,4 +33,11 @@ declare namespace Account {
 
   type LoginToKeys = keyof LoginTo
 
+  type User = {
+    /**
+     * 昵称
+     */
+    nickname?: string
+  }
+
 }
