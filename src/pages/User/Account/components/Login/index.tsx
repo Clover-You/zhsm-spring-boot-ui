@@ -26,6 +26,8 @@ import { Link } from 'react-router-dom'
 import { ValidateStatus } from 'antd/es/form/FormItem'
 import { theme } from 'antd'
 import { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon'
+import { GithubSymbolIcon } from '@/components/icon/symbol/github'
+import { LoginMethodTab } from '@/components/tab/login_method'
 
 export const LoginPage = memo((p, c) => {
   console.log(p, c);
@@ -64,12 +66,6 @@ export const LoginPage = memo((p, c) => {
 
   console.log(token.boxShadowSecondary);
 
-  const MyIcon = (props: CustomIconComponentProps) => {
-    return <svg {...props}>
-      <use href="#icon-github"></use>
-    </svg>
-  }
-
   return <>
     <div className={styles.loginBox}>
       <Card
@@ -92,7 +88,7 @@ export const LoginPage = memo((p, c) => {
             rules={[{ required: true, message: '用户名/邮箱不能为空!' }]}
           >
             <Input
-              prefix={<UserOutlined className='site-form-item-icon' />}
+              prefix={<UserOutlined style={{ color: token.colorTextPlaceholder }} />}
               placeholder='用户名/邮箱'
               onChange={() => clearValidateStatus('username')}
             />
@@ -104,7 +100,7 @@ export const LoginPage = memo((p, c) => {
             rules={[{ required: true, message: '密码不能为空!' }]}
           >
             <Input.Password
-              prefix={<LockOutlined className='site-form-item-icon' />}
+              prefix={<LockOutlined style={{ color: token.colorTextPlaceholder }} />}
               onChange={() => clearValidateStatus('password')}
               autoComplete={'none'}
               placeholder={'密码'}
@@ -127,7 +123,7 @@ export const LoginPage = memo((p, c) => {
           >登录</Button>
         </Form>
         <Divider plain>其它登录方式</Divider>
-        <Icon style={{fontSize: 20}} component={MyIcon as React.ForwardRefExoticComponent<any>} />
+        <LoginMethodTab/>
       </Card>
     </div>
   </>
