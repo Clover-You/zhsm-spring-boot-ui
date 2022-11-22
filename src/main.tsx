@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import 'nprogress/nprogress.css'
+import { StyleProvider } from '@ant-design/cssinjs';
 
 import 'antd/dist/reset.css';
 // import './index.less'
@@ -13,10 +14,12 @@ import './assets/font-icon/iconfont.js'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ConfigProvider componentSize={'large'} theme={{ token: light_theme, }}>
-      <HashRouter>
-        <LoginPage />
-      </HashRouter>
-    </ConfigProvider>
+    <StyleProvider hashPriority='high'>
+      <ConfigProvider componentSize={'large'} theme={{ token: light_theme, }}>
+        <HashRouter>
+          <LoginPage />
+        </HashRouter>
+      </ConfigProvider>
+    </StyleProvider>
   </React.StrictMode>
 )
