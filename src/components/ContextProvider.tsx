@@ -10,25 +10,28 @@
 
 import { message } from "antd";
 import { MessageInstance } from "antd/es/message/interface";
-import React, { ReactNode } from "react"
-
-export type ContextProviderProps = {
-  children?: ReactNode | undefined;
-}
+import React, { PropsWithChildren, ReactFragment, ReactNode } from "react"
 
 export type ContextMember = {
   message?: MessageInstance
 }
-export const ContextProvider = (props: ContextProviderProps) => {
-  const [messageApi, contextHolder] = message.useMessage()
-  
+
+export const ContextProvider = (props: PropsWithChildren) => {
+  const [messageApi, msgContextHolder] = message.useMessage()
+  let children = props.children
+
   const context: ContextMember = {
     message: messageApi
   }
 
+  if (props.children instanceof Array) {
+    children = [msgContextHolder, ...props.children]
+  } else {
+    children = [msgContextHolder, props.children]
+  }
+
   return <ContextProvider.Context.Provider value={context}>
-    {contextHolder}
-    {props.children}
+    {children}
   </ContextProvider.Context.Provider>
 }
 
