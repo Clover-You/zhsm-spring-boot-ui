@@ -11,14 +11,17 @@ import { HashRouter } from 'react-router-dom'
 import { light_theme } from './themes/light'
 
 import './assets/font-icon/iconfont.js'
+import { ContextProvider } from './components/ContextProvider';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <StyleProvider hashPriority='high'>
       <ConfigProvider componentSize={'large'} theme={{ token: light_theme, }}>
-        <HashRouter>
-          <LoginPage />
-        </HashRouter>
+        <ContextProvider>
+          <HashRouter>
+            <LoginPage />
+          </HashRouter>
+        </ContextProvider>
       </ConfigProvider>
     </StyleProvider>
   </React.StrictMode>
