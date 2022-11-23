@@ -18,15 +18,15 @@
  */
 import { memo, useContext, useState } from 'react'
 import styles from './Login.module.less'
-import { Button, Card, Checkbox, Col, Divider, Form, Input, Row } from 'antd'
+import { Button, Card, Checkbox, Col, Divider, Form, FormProps, Input, Row } from 'antd'
 import Icon, { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { ValidateErrorEntity } from 'rc-field-form/lib/interface'
 import * as StringUtils from '@/utils/StringUtils'
 import { Link } from 'react-router-dom'
 import { ValidateStatus } from 'antd/es/form/FormItem'
 import { theme } from 'antd'
 import { LoginMethodTab } from '@/components/tab/login_method'
 import { ContextProvider } from '@/components/ContextProvider'
+import { ValidateErrorEntity } from '@/types/antd'
 
 export const LoginPage = memo((p, c) => {
 
@@ -122,7 +122,7 @@ export const LoginPage = memo((p, c) => {
           >登录</Button>
         </Form>
         <Divider plain>其它登录方式</Divider>
-        <LoginMethodTab/>
+        <LoginMethodTab />
       </Card>
     </div>
   </>
