@@ -16,23 +16,22 @@
  * @email cloveryou02@163.com
  * @create 2022-10-24 23:01
  */
-import { memo, useState } from 'react'
+import { memo, useContext, useState } from 'react'
 import styles from './Login.module.less'
-import { Button, Card, Checkbox, Col, Divider, Form, Input, message, Row } from 'antd'
+import { Button, Card, Checkbox, Col, Divider, Form, Input, Row } from 'antd'
 import Icon, { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface'
 import * as StringUtils from '@/utils/StringUtils'
 import { Link } from 'react-router-dom'
 import { ValidateStatus } from 'antd/es/form/FormItem'
 import { theme } from 'antd'
-import { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon'
-import { GithubSymbolIcon } from '@/components/icon/symbol/github'
 import { LoginMethodTab } from '@/components/tab/login_method'
+import { ContextProvider } from '@/components/ContextProvider'
 
 export const LoginPage = memo((p, c) => {
-  console.log(p, c);
 
   const [form] = Form.useForm<Account.LoginTo>()
+  const context = useContext(ContextProvider.Context)
   const [validateStatus, setValidateStatus] = useState<{ [key in Account.LoginToKeys]: ValidateStatus }>({
     password: '',
     username: ''
@@ -42,7 +41,7 @@ export const LoginPage = memo((p, c) => {
     let firstField
     if ((firstField = errorInfo.errorFields[0])) {
       if (firstField.errors[0]) {
-        message.error(firstField.errors[0])
+        context.message?.error(firstField.errors[0])
         setValidateStatus({
           ...validateStatus,
           [firstField.name[0]]: 'error'
