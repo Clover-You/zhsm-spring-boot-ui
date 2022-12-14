@@ -1,22 +1,13 @@
-@ImagePackage: '@/assets/bg.svg';
-
-.loginBox {
-  background: url(@ImagePackage);
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-
-  .card {
-    // box-shadow: 0 0 10px @colorPrimary;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: auto;
-    width: 500px;
-  }
+.card {
+  // box-shadow: 0 0 10px @colorPrimary;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
 }
 
 @media only screen and (max-width: 576px) {
-  .loginBox .card {
+  .card {
     // margin: 8px !important;
     width: calc(100% - 20px) !important;
   }
