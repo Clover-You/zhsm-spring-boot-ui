@@ -15,20 +15,15 @@ import { RouteObject, useRoutes } from 'react-router-dom'
 const routes: RouteObject[] = [
   {
     path: '/',
+    element: <LoginAndRegisterPage />,
     children: [
       {
-        path: '/',
-        element: <LoginAndRegisterPage />,
-        children: [
-          {
-            path: '/login',
-            element: <LoginPage />
-          },
-          {
-            path: '/user/register',
-            element: <RegisterPage />
-          }
-        ]
+        path: 'login',
+        element: <LoginPage />
+      },
+      {
+        path: 'user/register',
+        element: <RegisterPage />
       }
     ]
   }
