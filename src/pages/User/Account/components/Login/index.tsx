@@ -18,20 +18,20 @@
  */
 import { memo, useContext, useState } from 'react'
 import styles from './Login.module.less'
-import { Button, Card, Checkbox, Col, Divider, Form, FormProps, Input, Row } from 'antd'
+import { Button, Card, Checkbox, Col, Divider, Form, FormProps, Input, Row, Space } from 'antd'
 import Icon, { LockOutlined, UserOutlined } from '@ant-design/icons'
 import * as StringUtils from '@/utils/StringUtils'
 import { Link } from 'react-router-dom'
 import { ValidateStatus } from 'antd/es/form/FormItem'
 import { theme } from 'antd'
 import { LoginMethodTab } from '@/components/tab/login_method'
-import { ContextProvider } from '@/components/ContextProvider'
-import { ValidateErrorEntity } from '@/types/antd'
+import { AntdComponentsContextProvider } from '@/context/AntdComponentsContextProvider'
+import { ValidateErrorEntity } from 'rc-field-form/lib/interface'
 
 export const LoginPage = memo((p, c) => {
 
   const [form] = Form.useForm<Account.LoginTo>()
-  const context = useContext(ContextProvider.Context)
+  const context = useContext(AntdComponentsContextProvider.Context)
   const [validateStatus, setValidateStatus] = useState<{ [key in Account.LoginToKeys]: ValidateStatus }>({
     password: '',
     username: ''
@@ -63,67 +63,69 @@ export const LoginPage = memo((p, c) => {
 
   const { token } = theme.useToken()
 
-  console.log(token.boxShadowSecondary);
-
   return <>
-    <div className={styles.loginBox}>
-      <Card
-        className={styles.card}
-        title={'登录'}
-        style={{ boxShadow: token.boxShadowSecondary }}
+    <Card
+      className={styles.card}
+      title={'登录'}
+      style={{ boxShadow: token.boxShadowSecondary }}
+    >
+      <Form
+        form={form}
+        scrollToFirstError={true}
+        labelCol={{ span: 2 }}
+        onFinishFailed={onFormFinishFailed}
+        autoComplete='off'
+        onFinish={onFinish}
       >
-        <Form
-          form={form}
-          scrollToFirstError={true}
-          labelCol={{ span: 2 }}
-          onFinishFailed={onFormFinishFailed}
-          autoComplete='off'
-          onFinish={onFinish}
+        <Form.Item>
+          <Space>
+            <span>还没有账号?</span>
+            <Link to={'/user/register'}>去注册</Link>
+          </Space>
+        </Form.Item>
+        <Form.Item
+          name={'username'}
+          validateStatus={validateStatus.username}
+          help={''}
+          rules={[{ required: true, message: '用户名/邮箱不能为空!' }]}
         >
-          <Form.Item
-            name={'username'}
-            validateStatus={validateStatus.username}
-            help={''}
-            rules={[{ required: true, message: '用户名/邮箱不能为空!' }]}
-          >
-            <Input
-              prefix={<UserOutlined style={{ color: token.colorTextPlaceholder }} />}
-              placeholder='用户名/邮箱'
-              onChange={() => clearValidateStatus('username')}
-            />
-          </Form.Item>
-          <Form.Item
-            name={'password'}
-            help={''}
-            validateStatus={validateStatus.password}
-            rules={[{ required: true, message: '密码不能为空!' }]}
-          >
-            <Input.Password
-              prefix={<LockOutlined style={{ color: token.colorTextPlaceholder }} />}
-              onChange={() => clearValidateStatus('password')}
-              autoComplete={'none'}
-              placeholder={'密码'}
-            />
-          </Form.Item>
-          <Form.Item>
-            <Row>
-              <Col flex={1}>
-                <Checkbox>记住我</Checkbox>
-              </Col>
-              <Col>
-                <Link to={'/forget'}>忘记密码?</Link>
-              </Col>
-            </Row>
-          </Form.Item>
-          <Button
-            block
-            htmlType={'submit'}
-            type={'primary'}
-          >登录</Button>
-        </Form>
-        <Divider plain>其它登录方式</Divider>
-        <LoginMethodTab />
-      </Card>
-    </div>
+          <Input
+            prefix={<UserOutlined style={{ color: token.colorTextPlaceholder }} />}
+            placeholder='用户名/邮箱'
+            onChange={() => clearValidateStatus('username')}
+          />
+        </Form.Item>
+        <Form.Item
+          name={'password'}
+          help={''}
+          validateStatus={validateStatus.password}
+          rules={[{ required: true, message: '密码不能为空!' }]}
+        >
+          <Input.Password
+            prefix={<LockOutlined style={{ color: token.colorTextPlaceholder }} />}
+            onChange={() => clearValidateStatus('password')}
+            autoComplete={'none'}
+            placeholder={'密码'}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Row>
+            <Col flex={1}>
+              <Checkbox>记住我</Checkbox>
+            </Col>
+            <Col>
+              <Link to={'/forget'}>忘记密码?</Link>
+            </Col>
+          </Row>
+        </Form.Item>
+        <Button
+          block
+          htmlType={'submit'}
+          type={'primary'}
+        >登录</Button>
+      </Form>
+      <Divider plain>其它登录方式</Divider>
+      <LoginMethodTab />
+    </Card>
   </>
 })

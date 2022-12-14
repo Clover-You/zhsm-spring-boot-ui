@@ -8,9 +8,9 @@
  * @create: 2022-11-22 21:38
  */
 
-import {message} from "antd";
-import {MessageInstance} from "antd/es/message/interface";
-import React, {PropsWithChildren, ReactFragment, ReactNode} from "react"
+import { message } from 'antd'
+import { MessageInstance } from 'antd/es/message/interface'
+import React, { PropsWithChildren, ReactFragment, ReactNode } from 'react'
 
 export type ContextMember = {
   message?: MessageInstance
