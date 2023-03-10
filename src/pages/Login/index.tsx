@@ -17,14 +17,14 @@
  * @create 2022-10-24 23:01
  */
 import { memo, useContext, useState } from 'react'
-import styles from './Login.module.less'
+import styles from './login.module.less'
 import { Button, Card, Checkbox, Col, Divider, Form, FormProps, Input, Row, Space } from 'antd'
 import Icon, { LockOutlined, UserOutlined } from '@ant-design/icons'
 import * as StringUtils from '@/utils/StringUtils'
 import { Link } from 'react-router-dom'
 import { ValidateStatus } from 'antd/es/form/FormItem'
 import { theme } from 'antd'
-import { LoginMethodTab } from '@/components/tab/login_method'
+import { LoginMethodTab } from '@/components/LoginMethodList'
 import { AntdComponentsContextProvider } from '@/context/AntdComponentsContextProvider'
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface'
 
@@ -80,7 +80,7 @@ export const LoginPage = memo((p, c) => {
         <Form.Item>
           <Space>
             <span>还没有账号?</span>
-            <Link to={'/user/register'}>去注册</Link>
+            <Link to={'/register'}>去注册</Link>
           </Space>
         </Form.Item>
         <Form.Item

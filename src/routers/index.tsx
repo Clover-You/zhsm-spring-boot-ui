@@ -7,10 +7,10 @@
  * @author: Clover
  * @create: 2022-11-26 12:57
  */
-import { LoginAndRegisterPage } from '@/pages/User/Account'
-import { LoginPage } from '@/pages/User/Account/components/Login'
-import { RegisterPage } from '@/pages/User/register'
-import { RouteObject, useRoutes } from 'react-router-dom'
+import { LoginAndRegisterPage } from '@/components/LoginBackground'
+import { LoginPage } from '@/pages/Login'
+import { RegisterPage } from '@/pages/Login/Register'
+import { Navigate, RouteObject, useRoutes } from 'react-router-dom'
 
 const routes: RouteObject[] = [
   {
@@ -22,8 +22,12 @@ const routes: RouteObject[] = [
         element: <LoginPage />
       },
       {
-        path: 'user/register',
+        path: 'register',
         element: <RegisterPage />
+      },
+      {
+        path: '/',
+        element: <Navigate replace to={'/login'} />
       }
     ]
   }
