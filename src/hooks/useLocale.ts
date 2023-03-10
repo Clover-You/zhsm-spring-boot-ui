@@ -31,7 +31,7 @@ type OmitFirstFormatMessageParams<T extends any[] = []> =
 
 type FormatMessageParams = ParamsType<IntlFormatMessage>
 type check = OmitFirstFormatMessageParams<FormatMessageParams>
-const useLocale = () => {
+export const useLocale = () => {
   const intl = useIntl()
 
   /** 自定义MessageDescriptor，增强Intl的id提示*/
@@ -41,7 +41,7 @@ const useLocale = () => {
 
   return {
     formatMessage: (descriptor: CustomMessageDescriptor, ...args: check) => {
-      return intl.formatMessage(descriptor, args[0], args[1])
+      return intl.formatMessage(descriptor, args[0], args[1]) as string | undefined
     }
   }
 }

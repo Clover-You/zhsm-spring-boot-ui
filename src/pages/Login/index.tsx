@@ -27,6 +27,8 @@ import { theme } from 'antd'
 import { LoginMethodTab } from '@/components/LoginMethodList'
 import { AntdComponentsContextProvider } from '@/context/AntdComponentsContextProvider'
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface'
+import { FormattedMessage } from '@/components/Locale/FormattedMessage'
+import { useLocale } from '@/hooks/useLocale'
 
 export const LoginPage = memo((p, c) => {
 
@@ -36,6 +38,7 @@ export const LoginPage = memo((p, c) => {
     password: '',
     username: ''
   })
+  const locale = useLocale()
 
   const onFormFinishFailed = async (errorInfo: ValidateErrorEntity<Account.LoginTo>) => {
     let firstField
@@ -57,16 +60,20 @@ export const LoginPage = memo((p, c) => {
   }
 
   const onFinish = (value: Account.LoginTo) => {
-    console.log(value);
+    console.log(value)
 
   }
 
   const { token } = theme.useToken()
 
+  const userNameOrMailboxNotEmpty = locale.formatMessage({ id: 'login.page.userNameOrMailboxNotEmpty' })
+
+  console.log(userNameOrMailboxNotEmpty)
+
   return <>
     <Card
       className={styles.card}
-      title={'登录'}
+      title={locale.formatMessage({ id: 'login' })}
       style={{ boxShadow: token.boxShadowSecondary }}
     >
       <Form
@@ -74,24 +81,29 @@ export const LoginPage = memo((p, c) => {
         scrollToFirstError={true}
         labelCol={{ span: 2 }}
         onFinishFailed={onFormFinishFailed}
-        autoComplete='off'
+        autoComplete="off"
         onFinish={onFinish}
       >
         <Form.Item>
           <Space>
-            <span>还没有账号?</span>
-            <Link to={'/register'}>去注册</Link>
+            <span><FormattedMessage id={'noAccountYet'} />?</span>
+            <Link to={'/register'}><FormattedMessage id={'goRegister'} /></Link>
           </Space>
         </Form.Item>
         <Form.Item
           name={'username'}
           validateStatus={validateStatus.username}
           help={''}
-          rules={[{ required: true, message: '用户名/邮箱不能为空!' }]}
+          rules={[
+            {
+              required: true,
+              message: locale.formatMessage({ id: 'login.page.userNameOrMailboxNotEmpty' })
+            }
+          ]}
         >
           <Input
             prefix={<UserOutlined style={{ color: token.colorTextPlaceholder }} />}
-            placeholder='用户名/邮箱'
+            placeholder={locale.formatMessage({ id: 'login.page.input.username' })}
             onChange={() => clearValidateStatus('username')}
           />
         </Form.Item>
@@ -99,32 +111,41 @@ export const LoginPage = memo((p, c) => {
           name={'password'}
           help={''}
           validateStatus={validateStatus.password}
-          rules={[{ required: true, message: '密码不能为空!' }]}
+          rules={[
+            {
+              required: true,
+              message: locale.formatMessage({ id: 'login.page.passwordCannotEmpty' })
+            }
+          ]}
         >
           <Input.Password
             prefix={<LockOutlined style={{ color: token.colorTextPlaceholder }} />}
             onChange={() => clearValidateStatus('password')}
             autoComplete={'none'}
-            placeholder={'密码'}
+            placeholder={locale.formatMessage({ id: 'login.page.input.password' })}
           />
         </Form.Item>
         <Form.Item>
           <Row>
             <Col flex={1}>
-              <Checkbox>记住我</Checkbox>
+              <FormattedMessage id={'rememberMe'}>
+                {nodes => <Checkbox>{nodes}</Checkbox>}
+              </FormattedMessage>
             </Col>
             <Col>
-              <Link to={'/forget'}>忘记密码?</Link>
+              <FormattedMessage id={'forgotPassword'}>
+                {nodes => <Link to={'/forget'}>{nodes}</Link>}
+              </FormattedMessage>
             </Col>
           </Row>
         </Form.Item>
-        <Button
-          block
-          htmlType={'submit'}
-          type={'primary'}
-        >登录</Button>
+        <FormattedMessage id={'login'}>
+          {nodes => <Button block htmlType={'submit'} type={'primary'}>{nodes}</Button>}
+        </FormattedMessage>
       </Form>
-      <Divider plain>其它登录方式</Divider>
+      <FormattedMessage id={'otherLoginMethod'}>
+        {nodes => <Divider plain>{nodes}</Divider>}
+      </FormattedMessage>
       <LoginMethodTab />
     </Card>
   </>
