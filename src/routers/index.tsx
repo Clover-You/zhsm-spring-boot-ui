@@ -7,9 +7,9 @@
  * @author: Clover
  * @create: 2022-11-26 12:57
  */
-import { LoginAndRegisterPage } from '@/pages/user/Account'
-import { LoginPage } from '@/pages/user/Account/components/Login'
-import { RegisterPage } from '@/pages/user/register'
+import { LoginAndRegisterPage } from '@/pages/User/Account'
+import { LoginPage } from '@/pages/User/Account/components/Login'
+import { RegisterPage } from '@/pages/User/register'
 import { RouteObject, useRoutes } from 'react-router-dom'
 
 const routes: RouteObject[] = [

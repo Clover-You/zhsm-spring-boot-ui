@@ -4,7 +4,6 @@ import 'nprogress/nprogress.css'
 import { StyleProvider } from '@ant-design/cssinjs';
 
 import 'antd/dist/reset.css';
-import { LoginPage } from '@/pages/user/Account/components/Login'
 import { ConfigProvider, theme } from 'antd'
 import {BrowserRouter, HashRouter} from 'react-router-dom'
 import { light_theme } from './themes/light'
