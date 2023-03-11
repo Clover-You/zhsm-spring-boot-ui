@@ -8,19 +8,17 @@
  * ░     ░░▒░ ░ ░   ░  ▒   ░ ░▒ ▒░
  * ░ ░    ░░░ ░ ░ ░        ░ ░░ ░
  * ░     ░ ░      ░  ░
- * Copyright 2022 Clover You.
+ * Copyright 2023 Clover You.
  * <p>
- * 侧边栏
+ * 主页
  * </p>
- * @author Clover
+ * @author Clover You
  * @email cloveryou02@163.com
- * @create 2022-08-30 10:36
+ * @create 2023/3/11 16:55
  */
-import {memo} from "react";
 
-export interface SiderProps {
+export const HomePage = () => {
+  return <>
+    hello world
+  </>
 }
-
-export const Sider = memo<SiderProps>(() => {
-  return <>Sider</>
-})

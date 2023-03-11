@@ -14,6 +14,6 @@ export const light_theme: Partial<AliasToken> = {
   colorLink: '#1890ff',
   colorPrimary: '#7d5284',
   fontSizeIcon: 140,
-  controlOutlineWidth: 0
+  controlOutlineWidth: 0,
 }
  

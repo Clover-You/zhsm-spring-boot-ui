@@ -10,30 +10,32 @@
  * ░     ░ ░      ░  ░
  * Copyright 2022 Clover You.
  * <p>
- * 视图渲染
+ * 侧边栏
  * </p>
  * @author Clover
  * @email cloveryou02@163.com
- * @create 2022-08-30 10:38
+ * @create 2022-08-30 10:36
  */
 import { memo } from 'react'
-import { Layout, Tabs, theme } from 'antd'
-import { Outlet } from 'react-router-dom'
-import { BlockHeader } from '@/layouts/components/BlockHeader'
+import { Layout, theme, Menu } from 'antd'
 
-const { Content } = Layout
+const { Sider } = Layout
 
-export interface ViewProps {
+export interface SiderProps {
 }
 
-export const View = memo<ViewProps>(() => {
+export const SiderMenu = memo<SiderProps>(() => {
   const { token } = theme.useToken()
   return <>
-    <Content>
-      <BlockHeader />
-      <Content style={{ padding: token.padding, height: 'inherit' }}>
-        <Outlet />
-      </Content>
-    </Content>
+    <Sider style={{ backgroundColor: token.colorBgContainer, boxShadow: token.boxShadow, height: 'inherit' }} width={100}>
+      <Menu mode={'inline'}>
+        <Menu.Item>销售</Menu.Item>
+        <Menu.Item>库存</Menu.Item>
+        <Menu.Item>账务</Menu.Item>
+        <Menu.Item>分析</Menu.Item>
+        <Menu.Item>资料</Menu.Item>
+        <Menu.Item>设置</Menu.Item>
+      </Menu>
+    </Sider>
   </>
 })

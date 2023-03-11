@@ -18,33 +18,21 @@
  */
 import { memo } from 'react'
 
-import { BlockHeader } from "@/layouts/components/BlockHeader";
-import { Sider } from "@/layouts/components/Sider";
-import { View } from "@/layouts/components/View";
-import { Box, Grid } from '@mui/material';
+import { BlockHeader } from '@/layouts/components/BlockHeader'
+import { SiderMenu } from '@/layouts/components/SiderMenu'
+import { View } from '@/layouts/components/View'
+import { Layout } from 'antd'
 
 export interface BaseLayoutProps {
 }
 
 export const BaseLayout = memo<BaseLayoutProps>(() => {
   return <>
-    <Grid container>
-      <Grid item xs>
-        <BlockHeader />
-      </Grid>
-    </Grid>
-    <Grid container>
-      <Box
-        component={Grid}
-        item
-        xs={3}
-        display={{ xs: "none", md: "block" }}
-      >
-        <Sider />
-      </Box>
-      <Grid item xs>
+    <Layout style={{ height: '100vh' }}>
+      <SiderMenu />
+      <Layout>
         <View />
-      </Grid>
-    </Grid>
+      </Layout>
+    </Layout>
   </>
 })
