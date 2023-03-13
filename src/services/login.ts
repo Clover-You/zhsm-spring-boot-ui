@@ -21,10 +21,10 @@ import { API_URL } from '@/services/config'
 import { BaseResp } from '@/types/modals/http'
 
 /**
- * 用户登录
+ * todo 用户登录
  * @param username 用户名
  * @param password 密码
  */
-const userLogin = (username: string, password: string) => {
+export const userLogin = (username: string, password: string) => {
   return request.post<BaseResp>(API_URL.USER_LOGIN, { account: username, password })
 }
