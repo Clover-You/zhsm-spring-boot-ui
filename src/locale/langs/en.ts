@@ -1,5 +1,3 @@
-import { LocaleMessages } from '@/locale/messages'
-
 /**
  * █████▒█      ██  ▄████▄   ██ ▄█▀     ██████╗ ██╗   ██╗ ██████╗
  * ▓██   ▒ ██  ▓██▒▒██▀ ▀█   ██▄█▒      ██╔══██╗██║   ██║██╔════╝
@@ -18,19 +16,24 @@ import { LocaleMessages } from '@/locale/messages'
  * @email cloveryou02@163.com
  * @create 2023/3/11 02:32
  */
-export const en_Message = {
-  login: 'login',
-  otherLoginMethod: 'other login methods',
-  register: 'register',
-  rememberMe: 'remember me',
-  forgotPassword: 'forgot password',
-  goLogin: 'go login',
-  goRegister: 'go register',
-  noAccountYet: 'no account yet',
-  'login.page.userNameOrMailboxNotEmpty': 'username or mailbox cannot be empty',
-  'login.page.passwordCannotEmpty': 'password cannot be empty',
-  'login.page.input.username': 'username or mailbox',
-  'login.page.input.password': 'password',
-} as LocaleMessages
+import { LocaleMessages } from '@/locale/messages'
+
+export const en_Message: LocaleMessages = {
+  'login.card.title': 'login',
+  'login.card.forgot-password': 'forgot password',
+  'login.card.go-register': 'go register',
+  'login.card.input.password': 'please enter password',
+  'login.card.input.username': 'please enter username or mailbox',
+  'login.card.login-methods': 'other login methods',
+  'login.card.no-account-yet': 'no account yet?',
+  'login.card.password-cannot-empty': 'please enter your password',
+  'login.card.remember-me': 'remember me',
+  'login.card.user-name-or-mailbox-not-empty': 'please enter your username or mailbox',
+  'login.card.button.login': 'login',
+  'register.card.goLogin': 'go login',
+  'register.card.have-account': 'already have an account?',
+  'register.card.title': 'register account'
+
+}
 
 export const en = { name: 'en', messages: en_Message }

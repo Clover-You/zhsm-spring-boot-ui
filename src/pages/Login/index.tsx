@@ -18,12 +18,11 @@
  */
 import { memo, useContext, useState } from 'react'
 import styles from './login.module.less'
-import { Button, Card, Checkbox, Col, Divider, Form, FormProps, Input, Row, Space } from 'antd'
-import Icon, { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { Button, Card, Checkbox, Col, Divider, Form, Input, Row, Space, theme } from 'antd'
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import * as StringUtils from '@/utils/StringUtils'
 import { Link } from 'react-router-dom'
 import { ValidateStatus } from 'antd/es/form/FormItem'
-import { theme } from 'antd'
 import { LoginMethodTab } from '@/components/LoginMethodList'
 import { AntdComponentsContextProvider } from '@/context/AntdComponentsContextProvider'
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface'
@@ -66,14 +65,10 @@ export const LoginPage = memo((p, c) => {
 
   const { token } = theme.useToken()
 
-  const userNameOrMailboxNotEmpty = locale.formatMessage({ id: 'login.page.userNameOrMailboxNotEmpty' })
-
-  console.log(userNameOrMailboxNotEmpty)
-
   return <>
     <Card
       className={styles.card}
-      title={locale.formatMessage({ id: 'login' })}
+      title={locale.formatMessage({ id: 'login.card.title' })}
       style={{ boxShadow: token.boxShadowSecondary }}
     >
       <Form
@@ -86,8 +81,8 @@ export const LoginPage = memo((p, c) => {
       >
         <Form.Item>
           <Space>
-            <span><FormattedMessage id={'noAccountYet'} />?</span>
-            <Link to={'/register'}><FormattedMessage id={'goRegister'} /></Link>
+            <FormattedMessage id={'login.card.no-account-yet'} tagName={'span'} />
+            <Link to={'/register'}><FormattedMessage id={'login.card.go-register'} /></Link>
           </Space>
         </Form.Item>
         <Form.Item
@@ -97,13 +92,13 @@ export const LoginPage = memo((p, c) => {
           rules={[
             {
               required: true,
-              message: locale.formatMessage({ id: 'login.page.userNameOrMailboxNotEmpty' })
+              message: locale.formatMessage({ id: 'login.card.user-name-or-mailbox-not-empty' })
             }
           ]}
         >
           <Input
             prefix={<UserOutlined style={{ color: token.colorTextPlaceholder }} />}
-            placeholder={locale.formatMessage({ id: 'login.page.input.username' })}
+            placeholder={locale.formatMessage({ id: 'login.card.input.username' })}
             onChange={() => clearValidateStatus('username')}
           />
         </Form.Item>
@@ -114,7 +109,7 @@ export const LoginPage = memo((p, c) => {
           rules={[
             {
               required: true,
-              message: locale.formatMessage({ id: 'login.page.passwordCannotEmpty' })
+              message: locale.formatMessage({ id: 'login.card.password-cannot-empty' })
             }
           ]}
         >
@@ -122,28 +117,28 @@ export const LoginPage = memo((p, c) => {
             prefix={<LockOutlined style={{ color: token.colorTextPlaceholder }} />}
             onChange={() => clearValidateStatus('password')}
             autoComplete={'none'}
-            placeholder={locale.formatMessage({ id: 'login.page.input.password' })}
+            placeholder={locale.formatMessage({ id: 'login.card.input.password' })}
           />
         </Form.Item>
         <Form.Item>
           <Row>
             <Col flex={1}>
-              <FormattedMessage id={'rememberMe'}>
+              <FormattedMessage id={'login.card.remember-me'}>
                 {nodes => <Checkbox>{nodes}</Checkbox>}
               </FormattedMessage>
             </Col>
             <Col>
-              <FormattedMessage id={'forgotPassword'}>
+              <FormattedMessage id={'login.card.forgot-password'}>
                 {nodes => <Link to={'/forget'}>{nodes}</Link>}
               </FormattedMessage>
             </Col>
           </Row>
         </Form.Item>
-        <FormattedMessage id={'login'}>
+        <FormattedMessage id={'login.card.button.login'}>
           {nodes => <Button block htmlType={'submit'} type={'primary'}>{nodes}</Button>}
         </FormattedMessage>
       </Form>
-      <FormattedMessage id={'otherLoginMethod'}>
+      <FormattedMessage id={'login.card.login-methods'}>
         {nodes => <Divider plain>{nodes}</Divider>}
       </FormattedMessage>
       <LoginMethodTab />

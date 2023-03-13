@@ -19,21 +19,26 @@
 import { Card, Form, Space, theme } from 'antd'
 import { Link } from 'react-router-dom'
 import styles from './register.module.less'
+import { FormattedMessage } from '@/components/Locale/FormattedMessage'
+import { useIntl } from 'react-intl/lib'
+import { useLocale } from '@/hooks/useLocale'
 
 export const RegisterPage = () => {
   const { token } = theme.useToken()
-
+  const locale = useLocale()
   return <>
     <Card
       className={styles.card}
-      title={'注册'}
+      title={locale.formatMessage({ id: 'register.card.title' })}
       style={{ boxShadow: token.boxShadowSecondary }}
     >
       <Form>
         <Form.Item>
           <Space>
-            <span>已有账号?</span>
-            <Link to={'/login'}>去登录</Link>
+            <FormattedMessage id={'register.card.have-account'} tagName={'span'} />
+            <FormattedMessage id={'register.card.goLogin'}>
+              {nodes => <Link to={'/login'}>{nodes}</Link>}
+            </FormattedMessage>
           </Space>
         </Form.Item>
       </Form>
