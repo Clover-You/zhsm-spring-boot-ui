@@ -8,13 +8,15 @@
  * @create: 2022-11-22 21:38
  */
 
+import React, { PropsWithChildren, ReactFragment, ReactNode } from 'react'
 import { message } from 'antd'
 import { MessageInstance } from 'antd/es/message/interface'
-import React, { PropsWithChildren, ReactFragment, ReactNode } from 'react'
 
 export type ContextMember = {
   message?: MessageInstance
 }
+
+export const AntdComponentsContext = React.createContext<ContextMember>({})
 
 export const AntdComponentsContextProvider = (props: PropsWithChildren) => {
   const [messageApi, msgContextHolder] = message.useMessage()
@@ -30,11 +32,9 @@ export const AntdComponentsContextProvider = (props: PropsWithChildren) => {
     children = [msgContextHolder, props.children]
   }
 
-  return <AntdComponentsContextProvider.Context.Provider value={context}>
-    {children}
-  </AntdComponentsContextProvider.Context.Provider>
+  return <>
+    <AntdComponentsContext.Provider value={context}>
+      {children}
+    </AntdComponentsContext.Provider>
+  </>
 }
-
-AntdComponentsContextProvider.Context = React.createContext<ContextMember>({})
-
-AntdComponentsContextProvider.ContextHolder = AntdComponentsContextProvider.Context

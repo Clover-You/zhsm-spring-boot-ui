@@ -24,22 +24,23 @@ import * as StringUtils from '@/utils/StringUtils'
 import { Link, useNavigate } from 'react-router-dom'
 import { ValidateStatus } from 'antd/es/form/FormItem'
 import { LoginMethodTab } from '@/components/LoginMethodList'
-import { AntdComponentsContextProvider } from '@/context/AntdComponentsContextProvider'
+import { AntdComponentsContext } from '@/context/AntdComponentsContextProvider'
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface'
 import { FormattedMessage } from '@/components/Locale/FormattedMessage'
 import { useLocale } from '@/hooks/useLocale'
+import { userLogin } from '@/services/login'
 
 export const LoginPage = memo((p, c) => {
 
   const [form] = Form.useForm<Account.LoginTo>()
-  const context = useContext(AntdComponentsContextProvider.Context)
+  const context = useContext(AntdComponentsContext)
+
   const [validateStatus, setValidateStatus] = useState<{ [key in Account.LoginToKeys]: ValidateStatus }>({
     password: '',
     username: ''
   })
   const locale = useLocale()
   const navigate = useNavigate()
-
   /**
    * 去到首页
    */
@@ -71,7 +72,12 @@ export const LoginPage = memo((p, c) => {
    * 表单校验通过触发
    * @param value 账户名密码
    */
-  const onFinish = async (value: Account.LoginTo) => {
+  const onFinish = async (form: Account.LoginTo) => {
+    try {
+      await userLogin(form.username, form.password)
+    } catch (e) {
+
+    }
     goHome()
   }
 
