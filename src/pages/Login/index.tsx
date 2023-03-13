@@ -50,7 +50,7 @@ export const LoginPage = memo((p, c) => {
     let firstField
     if ((firstField = errorInfo.errorFields[0])) {
       if (firstField.errors[0]) {
-        context.message?.error(firstField.errors[0])
+        context.showPerMessage?.error(firstField.errors[0])
         setValidateStatus({
           ...validateStatus,
           [firstField.name[0]]: 'error'
