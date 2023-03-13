@@ -11,7 +11,7 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
 import qs from 'qs'
 import Nprogress from 'nprogress'
-import { BaseResp } from '@/modals/http'
+import { BaseResp } from '@/types/modals/http'
 
 
 const req = axios.create({

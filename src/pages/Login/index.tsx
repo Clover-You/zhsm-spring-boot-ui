@@ -21,7 +21,7 @@ import styles from './login.module.less'
 import { Button, Card, Checkbox, Col, Divider, Form, Input, Row, Space, theme } from 'antd'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import * as StringUtils from '@/utils/StringUtils'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ValidateStatus } from 'antd/es/form/FormItem'
 import { LoginMethodTab } from '@/components/LoginMethodList'
 import { AntdComponentsContextProvider } from '@/context/AntdComponentsContextProvider'
@@ -38,6 +38,12 @@ export const LoginPage = memo((p, c) => {
     username: ''
   })
   const locale = useLocale()
+  const navigate = useNavigate()
+
+  /**
+   * 去到首页
+   */
+  const goHome = () => navigate('/index', { replace: true })
 
   const onFormFinishFailed = async (errorInfo: ValidateErrorEntity<Account.LoginTo>) => {
     let firstField
@@ -52,15 +58,21 @@ export const LoginPage = memo((p, c) => {
     }
   }
 
+  /**
+   * 清楚表单验证状态
+   */
   const clearValidateStatus = (field: Account.LoginToKeys) => {
     if (StringUtils.hasText(validateStatus[field])) {
       setValidateStatus({ ...validateStatus, [field]: '' })
     }
   }
 
-  const onFinish = (value: Account.LoginTo) => {
-    console.log(value)
-
+  /**
+   * 表单校验通过触发
+   * @param value 账户名密码
+   */
+  const onFinish = async (value: Account.LoginTo) => {
+    goHome()
   }
 
   const { token } = theme.useToken()
