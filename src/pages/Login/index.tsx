@@ -20,7 +20,7 @@ import { memo, useContext, useState } from 'react'
 import styles from './login.module.less'
 import { Button, Card, Checkbox, Col, Divider, Form, Input, Row, Space, theme } from 'antd'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import * as StringUtils from '@/utils/StringUtils'
+import * as strings from '@/utils/strings'
 import { Link, useNavigate } from 'react-router-dom'
 import { ValidateStatus } from 'antd/es/form/FormItem'
 import { LoginMethodTab } from '@/components/LoginMethodList'
@@ -29,15 +29,17 @@ import { ValidateErrorEntity } from 'rc-field-form/lib/interface'
 import { FormattedMessage } from '@/components/Locale/FormattedMessage'
 import { useLocale } from '@/hooks/useLocale'
 import { userLogin } from '@/services/login'
+import { LoginTo, LoginToKeys } from '@/types/to/login'
+import { Account } from '@/types/modals/user'
 
 export const LoginPage = memo((p, c) => {
 
-  const [form] = Form.useForm<Account.LoginTo>()
+  const [form] = Form.useForm<LoginTo>()
   const context = useContext(AntdComponentsContext)
 
-  const [validateStatus, setValidateStatus] = useState<{ [key in Account.LoginToKeys]: ValidateStatus }>({
+  const [validateStatus, setValidateStatus] = useState<{ [key in LoginToKeys]: ValidateStatus }>({
     password: '',
-    username: ''
+    account: ''
   })
   const locale = useLocale()
   const navigate = useNavigate()
@@ -46,7 +48,7 @@ export const LoginPage = memo((p, c) => {
    */
   const goHome = () => navigate('/index', { replace: true })
 
-  const onFormFinishFailed = async (errorInfo: ValidateErrorEntity<Account.LoginTo>) => {
+  const onFormFinishFailed = async (errorInfo: ValidateErrorEntity<LoginTo>) => {
     let firstField
     if ((firstField = errorInfo.errorFields[0])) {
       if (firstField.errors[0]) {
@@ -62,23 +64,25 @@ export const LoginPage = memo((p, c) => {
   /**
    * 清楚表单验证状态
    */
-  const clearValidateStatus = (field: Account.LoginToKeys) => {
-    if (StringUtils.hasText(validateStatus[field])) {
+  const clearValidateStatus = (field: LoginToKeys) => {
+    if (strings.hasText(validateStatus[field])) {
       setValidateStatus({ ...validateStatus, [field]: '' })
     }
   }
 
   /**
    * 表单校验通过触发
-   * @param value 账户名密码
+   * @param form 用户名密码
    */
-  const onFinish = async (form: Account.LoginTo) => {
+  const onFinish = async (form: LoginTo) => {
     try {
-      await userLogin(form.username, form.password)
+      const { data: { code, message } } = await userLogin(form.account, form.password)
+      if (code != 200) return context.showPerMessage?.error(message)
+      goHome()
     } catch (e) {
-
+      context.message?.error('系统异常')
+      console.error(e)
     }
-    goHome()
   }
 
   const { token } = theme.useToken()
@@ -104,8 +108,8 @@ export const LoginPage = memo((p, c) => {
           </Space>
         </Form.Item>
         <Form.Item
-          name={'username'}
-          validateStatus={validateStatus.username}
+          name={'account'}
+          validateStatus={validateStatus.account}
           help={''}
           rules={[
             {
@@ -117,7 +121,7 @@ export const LoginPage = memo((p, c) => {
           <Input
             prefix={<UserOutlined style={{ color: token.colorTextPlaceholder }} />}
             placeholder={locale.formatMessage({ id: 'login.card.input.username' })}
-            onChange={() => clearValidateStatus('username')}
+            onChange={() => clearValidateStatus('account')}
           />
         </Form.Item>
         <Form.Item

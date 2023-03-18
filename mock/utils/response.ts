@@ -10,23 +10,15 @@
  * ░     ░ ░      ░  ░
  * Copyright 2023 Clover You.
  * <p>
- * 用户相关 to
+ * mock响应数据
  * </p>
  * @author Clover You
  * @email cloveryou02@163.com
- * @create 2023/3/13 13:04
+ * @create 2023/3/17 18:26
  */
-export type LoginTo = {
+import { sleep } from '../../src/utils/time'
 
-  /**
-   * 用户名
-   */
-  account: string
-
-  /**
-   * 密码
-   */
-  password: string
+export const delayResponse = async () => {
+  const time = parseInt((Math.random() * 5000).toFixed(0))
+  await sleep(time)
 }
-
-export type LoginToKeys = keyof LoginTo

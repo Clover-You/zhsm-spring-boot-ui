@@ -22,9 +22,9 @@ import { BaseResp } from '@/types/modals/http'
 
 /**
  * todo 用户登录
- * @param username 用户名
+ * @param account 用户名
  * @param password 密码
  */
-export const userLogin = (username: string, password: string) => {
-  return request.post<BaseResp>(API_URL.USER_LOGIN, { account: username, password })
+export const userLogin = (account: string, password: string) => {
+  return request.post<BaseResp>(API_URL.USER_LOGIN, { account, password })
 }

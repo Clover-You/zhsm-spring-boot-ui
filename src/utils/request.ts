@@ -8,30 +8,28 @@
  * @email: cloveryou02@163.com
  * @create: 2022-08-29 12:03
  **/
-import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
+import axios, { InternalAxiosRequestConfig } from 'axios'
 import qs from 'qs'
 import Nprogress from 'nprogress'
-import { BaseResp } from '@/types/modals/http'
-
 
 const req = axios.create({
-  paramsSerializer: (p) => {
-    return qs.stringify(p)
-  },
+  paramsSerializer: {
+    serialize: p => qs.stringify(p)
+  }
 })
 
 type CustomeConfig = {
   nprogress: typeof Nprogress
 }
-type AxiosConfig = CustomeConfig & AxiosRequestConfig
-req.interceptors.request.use<AxiosConfig>((config) => {
+type AxiosConfig = CustomeConfig & InternalAxiosRequestConfig
+req.interceptors.request.use((config) => {
   const conf = config as AxiosConfig
   // 打开全局进度条
   conf.nprogress = Nprogress.start()
   return conf
 })
 
-req.interceptors.response.use<AxiosResponse<BaseResp>>((resp) => {
+req.interceptors.response.use((resp) => {
   const conf = resp.config as AxiosConfig
   // 关闭全局进度条
   conf.nprogress.done()
@@ -40,4 +38,4 @@ req.interceptors.response.use<AxiosResponse<BaseResp>>((resp) => {
 
 export default req
 
-export {  req }
+export { req }

@@ -18,5 +18,5 @@
  */
 export const API_URL = {
   // 用户登录
-  USER_LOGIN: ''
+  USER_LOGIN: '/user/login'
 }

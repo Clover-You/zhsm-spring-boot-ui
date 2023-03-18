@@ -16,20 +16,9 @@
  * @email cloveryou02@163.com
  * @create 2022-10-26 23:10
  */
+import { LoginTo } from '@/types/to/login'
+
 declare namespace Account {
-
-  type LoginTo = {
-
-    /**
-     * 用户名
-     */
-    username: string
-
-    /**
-     * 密码
-     */
-    password: string
-  }
 
   type LoginToKeys = keyof LoginTo
 
