@@ -10,21 +10,44 @@
  * ░     ░ ░      ░  ░
  * Copyright 2023 Clover You.
  * <p>
- * 全局类型
+ * 为store actions创建代理
  * </p>
  * @author Clover You
  * @email cloveryou02@163.com
- * @create 2023/3/13 13:28
+ * @create 2023/3/19 17:59
  */
+import { useStoreDispatch } from '@/redux/hooks'
+import { Slice } from '@reduxjs/toolkit/src/createSlice'
+import { AsyncThunk } from '@reduxjs/toolkit'
+import { AsyncAction } from '@/types'
 
-/** 获取方法参数列表*/
-type ParamsType<T> = T extends (...args: infer P) => void ? P : never
+type AsyncThunkObject = { [key: string]: AsyncThunk<any, any, any> }
 
-/** 排除元组第一个元素*/
-type OmitFirstFormatMessageParams<T extends any[] = []> =
-  ((...args: T) => void) extends (first: any, ...args: infer P) => void ? P : never
+export type CreateStoreProxyReturn<T extends Slice['actions'], A extends AsyncThunkObject> =
+  T & AsyncAction<A>
 
-/** 异步action的名称*/
-export type AsyncAction<T extends object> = {
-  [K in keyof T as `${K}Async`]: T[K]
+export const createStoreProxy = <
+  T extends Slice['actions'],
+  A extends AsyncThunkObject = {}
+>(
+  actions: T,
+  asyncActions: A
+) => {
+  const dispatch = useStoreDispatch()
+  return new Proxy({ ...actions, ...(asyncActions as unknown as AsyncAction<A> ?? {}) }, {
+    get(target, propKey: string, receiver): any {
+      const asyncFn = propKey.endsWith('Async')
+
+      if (propKey.endsWith('Async')) {
+        propKey = propKey.replace(/Async$/, '')
+      }
+
+      let propValue = Reflect.get(asyncFn ? asyncActions : target, propKey, receiver)
+      if (typeof propValue === 'function') {
+        return (args: any[]) => dispatch(propValue(args))
+      }
+      return propValue
+    },
+  })
+
 }

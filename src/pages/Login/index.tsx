@@ -30,7 +30,8 @@ import { FormattedMessage } from '@/components/Locale/FormattedMessage'
 import { useLocale } from '@/hooks/useLocale'
 import { userLogin } from '@/services/login'
 import { LoginTo, LoginToKeys } from '@/types/to/login'
-import { Account } from '@/types/modals/user'
+import { useStoreDispatch, useUserStore } from '@/redux/hooks'
+import { login } from '@/redux/modules/user'
 
 export const LoginPage = memo((p, c) => {
 
@@ -87,12 +88,18 @@ export const LoginPage = memo((p, c) => {
 
   const { token } = theme.useToken()
 
+  const [state, action] = useUserStore()
+  const dispatch = useStoreDispatch()
+
   return <>
     <Card
       className={styles.card}
       title={locale.formatMessage({ id: 'login.card.title' })}
       style={{ boxShadow: token.boxShadowSecondary }}
     >
+      <Button onClick={() => {
+        action.loginAsync()
+      }}>{state.count}</Button>
       <Form
         form={form}
         scrollToFirstError={true}

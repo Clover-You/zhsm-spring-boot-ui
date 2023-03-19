@@ -10,21 +10,23 @@
  * ░     ░ ░      ░  ░
  * Copyright 2023 Clover You.
  * <p>
- * 全局类型
+ * redux 配置入口
  * </p>
  * @author Clover You
  * @email cloveryou02@163.com
- * @create 2023/3/13 13:28
+ * @create 2023/3/19 02:18
  */
+import { configureStore } from '@reduxjs/toolkit'
 
-/** 获取方法参数列表*/
-type ParamsType<T> = T extends (...args: infer P) => void ? P : never
+import user from './modules/user'
 
-/** 排除元组第一个元素*/
-type OmitFirstFormatMessageParams<T extends any[] = []> =
-  ((...args: T) => void) extends (first: any, ...args: infer P) => void ? P : never
+const store = configureStore({
+  reducer: {
+    user
+  }
+})
 
-/** 异步action的名称*/
-export type AsyncAction<T extends object> = {
-  [K in keyof T as `${K}Async`]: T[K]
-}
+export type AppDispatch = typeof store.dispatch;
+export type RootStore = ReturnType<typeof store.getState>
+
+export default store

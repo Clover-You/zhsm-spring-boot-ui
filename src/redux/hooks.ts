@@ -10,21 +10,24 @@
  * ░     ░ ░      ░  ░
  * Copyright 2023 Clover You.
  * <p>
- * 全局类型
+ * redux hooks
  * </p>
  * @author Clover You
  * @email cloveryou02@163.com
- * @create 2023/3/13 13:28
+ * @create 2023/3/19 15:50
  */
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootStore } from '@/redux/index'
 
-/** 获取方法参数列表*/
-type ParamsType<T> = T extends (...args: infer P) => void ? P : never
+import { actions as userActions, IUserStore, asyncActions } from '@/redux/modules/user'
+import { createStoreProxy, CreateStoreProxyReturn } from '@/redux/createStoreProxy'
+import { AsyncAction } from '@/types'
 
-/** 排除元组第一个元素*/
-type OmitFirstFormatMessageParams<T extends any[] = []> =
-  ((...args: T) => void) extends (first: any, ...args: infer P) => void ? P : never
+export const useStoreDispatch: () => AppDispatch = useDispatch
+export const useStoreSelector: TypedUseSelectorHook<RootStore> = useSelector
 
-/** 异步action的名称*/
-export type AsyncAction<T extends object> = {
-  [K in keyof T as `${K}Async`]: T[K]
+export const useUserStore = (): [IUserStore, CreateStoreProxyReturn<typeof userActions, typeof asyncActions>] => {
+  const state: IUserStore = useStoreSelector(state => state.user)
+  const actionsProxy = createStoreProxy(userActions, asyncActions)
+  return [state, actionsProxy]
 }
